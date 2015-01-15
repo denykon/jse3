@@ -54,8 +54,10 @@ public class ResultImplXml implements IResultDAO {
     public void run() {
         try {
             xmlReader.parse(XML_PATH + fileName + XML_EXT);
-        } catch (IOException | SAXException e) {
+        } catch (SAXException e) {
             throw new RuntimeException("XML parse error." + e);
+        } catch (IOException e) {
+            throw new RuntimeException("File " + fileName + XML_EXT + " not found.");
         }
     }
 }

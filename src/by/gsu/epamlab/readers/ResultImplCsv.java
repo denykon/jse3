@@ -34,7 +34,7 @@ public class ResultImplCsv implements IResultDAO {
         try {
             this.scanner = new Scanner(new FileReader(CSV_PATH + fileName + CSV_EXT));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("File" + fileName + CSV_EXT + " not found!");
+            throw new RuntimeException("File " + fileName + CSV_EXT + " not found!");
         }
         this.resultFactory = resultFactory;
         this.buffer = new Buffer();
