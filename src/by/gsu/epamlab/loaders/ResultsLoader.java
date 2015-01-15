@@ -63,7 +63,13 @@ public class ResultsLoader{
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException();
+            try {
+                throw new Exception();
+            } catch (Exception e1) {
+                System.err.println("Reading file data problem.");
+                System.exit(1);
+            }
+
         } finally {
             if (resultSet != null) {
                 try {
