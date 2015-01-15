@@ -44,7 +44,7 @@ public class RunnerLogic {
         IResultDAO iResultDAO = resultFactory.getResultDaoFromFactory();
         ResultsLoader resultsLoader = new ResultsLoader(iResultDAO);
 
-        Thread readInBuffer = new Thread(iResultDAO);
+        Thread readInBuffer = new Thread(iResultDAO, "Reader");
         readInBuffer.start();
 
         try {
