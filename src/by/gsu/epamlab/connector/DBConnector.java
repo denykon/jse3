@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public enum DBConnector {
@@ -35,7 +35,7 @@ public enum DBConnector {
             con = DriverManager.getConnection(dbUrl, user, password);
 
         } catch (Exception e) {
-            System.err.println("Please, check login and password.");
+            System.err.println("Connection failed. Please, check login and password.");
             System.exit(1);
         }
         return con;

@@ -5,9 +5,7 @@ import by.gsu.epamlab.loaders.ResultsLoader;
 import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.results.Result;
 import by.gsu.epamlab.results.ResultFactory;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class RunnerLogic {
@@ -39,19 +37,25 @@ public class RunnerLogic {
     private static final int MEAN_INDEX = 1;
 
 
-    public static void go(ResultFactory resultFactory) throws SQLException, IOException, SAXException {
+    public static void go(ResultFactory resultFactory) {
 
+        //Getting needed Result implements
         IResultDAO iResultDAO = resultFactory.getResultDaoFromFactory();
         ResultsLoader resultsLoader = new ResultsLoader(iResultDAO);
 
+        //Creating a new thread ("Reader") to read a file
         Thread readInBuffer = new Thread(iResultDAO, "Reader");
         readInBuffer.start();
 
+        //Sleep main thread for 1.5 sec
+        //it's give a time for tread "Reader", to create a Buffer
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
+
+        //main thread loading results from buffer
         resultsLoader.loadResults();
 
         List<Result> resultList = new ArrayList<>();
@@ -102,41 +106,27 @@ public class RunnerLogic {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         } finally {
-            if (collectionRS != null) {
-                try {
-                    collectionRS.close();
-                } catch (SQLException e) {
-                    System.err.println("Resource closing problem : " + e);
-                }
-            }
-            if (meanRS != null) {
-                try {
-                    meanRS.close();
-                } catch (SQLException e) {
-                    System.err.println("Resource closing problem : " + e);
-                }
-            }
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    System.err.println("Resource closing problem : " + e);
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    System.err.println("Resource closing problem : " + e);
-                }
-            }
+            closeResource(collectionRS, meanRS, preparedStatement, statement);
+
             if (CONNECTION != null) {
                 try {
                     CONNECTION.close();
                 } catch (SQLException e) {
-                    System.err.println("Resource closing problem : " + e);
+                    System.err.println("Connection closing problem : " + e);
+                }
+            }
+        }
+    }
+
+    private static void closeResource(AutoCloseable... resources) {
+        for (AutoCloseable resource : resources) {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (Exception e) {
+                    System.err.println("Resource closing problem: " + e);
                 }
             }
         }

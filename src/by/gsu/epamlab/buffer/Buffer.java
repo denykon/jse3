@@ -5,7 +5,7 @@ import by.gsu.epamlab.results.Result;
 /**
  * jse3
  *
- * @author Dzianis Kanavalau on 14.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version v1.0
  */
 public class Buffer {
@@ -13,6 +13,7 @@ public class Buffer {
     private volatile boolean empty = true;
 
     public Buffer() {
+        super();
     }
 
     public boolean isEmpty() {

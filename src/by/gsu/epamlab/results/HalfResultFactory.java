@@ -3,13 +3,12 @@ package by.gsu.epamlab.results;
 import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.readers.ResultImplCsv;
 
-import java.io.FileNotFoundException;
 import java.sql.Date;
 
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class HalfResultFactory extends ResultFactory {

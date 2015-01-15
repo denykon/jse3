@@ -2,15 +2,13 @@ package by.gsu.epamlab.results;
 
 import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.readers.ResultImplXml;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.sql.Date;
 
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class DecimalResultFactory extends ResultFactory {
@@ -24,11 +22,7 @@ public class DecimalResultFactory extends ResultFactory {
 
     @Override
     public IResultDAO getResultDaoFromFactory() {
-        try {
-            return new ResultImplXml(FILE_NAME);
-        } catch (IOException | SAXException e) {
-            throw new RuntimeException();
-        }
+        return new ResultImplXml(FILE_NAME);
     }
 
     @Override

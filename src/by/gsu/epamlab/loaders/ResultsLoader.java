@@ -4,15 +4,12 @@ import by.gsu.epamlab.connector.DBConnector;
 import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.results.Result;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class ResultsLoader{
@@ -44,7 +41,7 @@ public class ResultsLoader{
         this.con = DBConnector.CONNECTOR.getConnection();
     }
 
-    public void loadResults() throws SQLException {
+    public void loadResults() {
         try {
             psInsertLogin = con.prepareStatement(INSERT_LOGINS_NAME);
             psSelectLogin = con.prepareStatement(SELECT_LOGINS_NAME);
@@ -65,27 +62,33 @@ public class ResultsLoader{
                 psInsertResult.executeUpdate();
             }
 
+        } catch (SQLException e) {
+            throw new RuntimeException();
         } finally {
             if (resultSet != null) {
-                resultSet.close();
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    System.err.println("ResultSet closing problem: " + e);
+                }
             }
-            if (psSelectTest != null) {
-                psSelectTest.close();
-            }
-            if (psInsertTest != null) {
-                psInsertTest.close();
-            }
-            if (psSelectLogin != null) {
-                psSelectLogin.close();
-            }
-            if (psInsertLogin != null) {
-                psInsertLogin.close();
-            }
-            if (psInsertResult != null) {
-                psInsertResult.close();
-            }
+
+            closeStatements(psSelectTest, psInsertTest, psSelectLogin, psInsertLogin, psInsertResult);
+
             if (reader != null) {
                 reader.closeReader();
+            }
+        }
+    }
+
+    private void closeStatements(PreparedStatement... statements) {
+        for (PreparedStatement statement : statements) {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.err.println("Resource closing problem: " + e);
+                }
             }
         }
     }

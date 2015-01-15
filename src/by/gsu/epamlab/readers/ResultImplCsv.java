@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class ResultImplCsv implements IResultDAO {
@@ -34,7 +34,7 @@ public class ResultImplCsv implements IResultDAO {
         try {
             this.scanner = new Scanner(new FileReader(CSV_PATH + fileName + CSV_EXT));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("File csv not found!");
+            throw new RuntimeException("File" + fileName + CSV_EXT + " not found!");
         }
         this.resultFactory = resultFactory;
         this.buffer = new Buffer();

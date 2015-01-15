@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * jse2
  *
- * @author Dzianis Kanavalau on 10.01.2015.
+ * @author Dzianis Kanavalau on 15.01.2015.
  * @version 1.0
  */
 public class ResultImplXml implements IResultDAO {
@@ -24,9 +24,13 @@ public class ResultImplXml implements IResultDAO {
     private ResultHandler resultHandler;
     private Buffer buffer;
 
-    public ResultImplXml(String fileName) throws IOException, SAXException {
+    public ResultImplXml(String fileName) {
         this.fileName = fileName;
-        xmlReader = XMLReaderFactory.createXMLReader();
+        try {
+            xmlReader = XMLReaderFactory.createXMLReader();
+        } catch (SAXException e) {
+            throw new RuntimeException();
+        }
         resultHandler = new ResultHandler();
         buffer = resultHandler.getBuffer();
         xmlReader.setContentHandler(resultHandler);
@@ -51,7 +55,7 @@ public class ResultImplXml implements IResultDAO {
         try {
             xmlReader.parse(XML_PATH + fileName + XML_EXT);
         } catch (IOException | SAXException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("XML parse error." + e);
         }
     }
 }
