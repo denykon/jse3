@@ -8,7 +8,7 @@ import by.gsu.epamlab.results.Result;
  * @author Dzianis Kanavalau on 10.01.2015.
  * @version 1.0
  */
-public interface IResultDAO{
+public interface IResultDAO extends Runnable {
     Result nextResult();
 
     boolean hasResult();

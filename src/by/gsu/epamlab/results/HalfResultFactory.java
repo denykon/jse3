@@ -22,8 +22,8 @@ public class HalfResultFactory extends ResultFactory {
     }
 
     @Override
-    public IResultDAO getResultDaoFromFactory(ResultFactory factory) throws FileNotFoundException {
-        return new ResultImplCsv(FILE_NAME, factory);
+    public IResultDAO getResultDaoFromFactory() {
+        return new ResultImplCsv(FILE_NAME, this);
     }
 
     @Override

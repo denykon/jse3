@@ -23,8 +23,12 @@ public class DecimalResultFactory extends ResultFactory {
     }
 
     @Override
-    public IResultDAO getResultDaoFromFactory(ResultFactory factory) throws IOException, SAXException {
-        return new ResultImplXml(FILE_NAME);
+    public IResultDAO getResultDaoFromFactory() {
+        try {
+            return new ResultImplXml(FILE_NAME);
+        } catch (IOException | SAXException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override

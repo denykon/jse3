@@ -4,6 +4,7 @@ import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.readers.ResultImplCsv;
 import org.xml.sax.SAXException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 
@@ -21,8 +22,8 @@ public class ResultFactory {
         return new Result(login, test, date, mark);
     }
 
-    public IResultDAO getResultDaoFromFactory(ResultFactory factory) throws IOException, SAXException {
-        return new ResultImplCsv(FILE_NAME, factory);
+    public IResultDAO getResultDaoFromFactory() {
+        return new ResultImplCsv(FILE_NAME, this);
     }
 
     public int format(String mark) {

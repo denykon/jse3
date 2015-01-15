@@ -9,19 +9,41 @@ import by.gsu.epamlab.results.Result;
  * @version v1.0
  */
 public class Buffer {
-    Result bufferResult;
+    private Result result;
+    private volatile boolean empty = true;
 
-    public Buffer(Result bufferResult) {
-        this.bufferResult = bufferResult;
+    public Buffer() {
     }
 
-    public Result getBufferResult() {
-        return bufferResult;
+    public boolean isEmpty() {
+        return (!empty);
     }
 
-    public void setBufferResult(Result bufferResult) {
-        this.bufferResult = bufferResult;
+    public synchronized Result getResult() {
+        while (empty) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }
+        empty = true;
+        System.out.println("SET to DB ---> " + result);
+        notifyAll();
+        return result;
     }
 
-
+    public synchronized void setResult(Result result) {
+        while (!empty){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+        }
+        empty = false;
+        System.out.println("GET from file <--- " + result);
+        this.result = result;
+        notifyAll();
+    }
 }

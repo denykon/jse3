@@ -18,11 +18,11 @@ public class RunnerXML {
     public static void main(String[] args) {
         try {
             ResultFactory resultFactory = new DecimalResultFactory();
-            RunnerLogic.run(resultFactory);
+            RunnerLogic.go(resultFactory);
         } catch (SQLException | SAXException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("File is not found.");
+            System.err.println("File not found.");
         } catch (IOException e) {
             e.printStackTrace();
         }

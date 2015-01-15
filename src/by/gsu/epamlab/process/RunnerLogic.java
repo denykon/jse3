@@ -2,6 +2,7 @@ package by.gsu.epamlab.process;
 
 import by.gsu.epamlab.connector.DBConnector;
 import by.gsu.epamlab.loaders.ResultsLoader;
+import by.gsu.epamlab.readers.IResultDAO;
 import by.gsu.epamlab.results.Result;
 import by.gsu.epamlab.results.ResultFactory;
 import org.xml.sax.SAXException;
@@ -38,9 +39,21 @@ public class RunnerLogic {
     private static final int MEAN_INDEX = 1;
 
 
-    public static void run(ResultFactory resultFactory) throws SQLException, IOException, SAXException {
-        ResultsLoader resultsLoader = new ResultsLoader(resultFactory.getResultDaoFromFactory(resultFactory));
+    public static void go(ResultFactory resultFactory) throws SQLException, IOException, SAXException {
+
+        IResultDAO iResultDAO = resultFactory.getResultDaoFromFactory();
+        ResultsLoader resultsLoader = new ResultsLoader(iResultDAO);
+
+        Thread readInBuffer = new Thread(iResultDAO);
+        readInBuffer.start();
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         resultsLoader.loadResults();
+
         List<Result> resultList = new ArrayList<>();
         Statement statement = null;
         PreparedStatement preparedStatement = null;

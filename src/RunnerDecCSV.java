@@ -19,11 +19,11 @@ public class RunnerDecCSV {
 
         try {
             ResultFactory resultFactory = new HalfResultFactory();
-            RunnerLogic.run(resultFactory);
+            RunnerLogic.go(resultFactory);
         } catch (SQLException | SAXException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("File is not found.");
+            System.err.println("File not found.");
         } catch (IOException e) {
             e.printStackTrace();
         }

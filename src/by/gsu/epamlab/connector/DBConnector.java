@@ -14,8 +14,8 @@ public enum DBConnector {
 
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/results";
-    private static final String USER = "jse";
-    private static final String PASSWORD = "jse";
+    private static final String USER = "root";
+    private static final String PASSWORD = "admin";
 
     private final Connection connection;
 
